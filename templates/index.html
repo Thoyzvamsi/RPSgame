@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #result { margin-top: 20px; font-size: 18px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <button onclick="play('Rock')">Rock</button>
+  <button onclick="play('Paper')">Paper</button>
+  <button onclick="play('Scissors')">Scissors</button>
+
+  <p id="result"></p>
+
+  <script>
+    async function play(choice) {
+      const res = await fetch("/play", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ choice })
+      });
+      const data = await res.json();
+      document.getElementById("result").innerText =
+        `You: ${data.user}, Computer: ${data.computer}, Result: ${data.result}`;
+    }
+  </script>
+</body>
+</html>
